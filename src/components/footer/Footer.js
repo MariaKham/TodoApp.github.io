@@ -1,4 +1,4 @@
-import './footer.css'
+import './footer.css';
 import React, { Component } from 'react';
 import TasksFilter from '../tasksFilter/TasksFilter';
 

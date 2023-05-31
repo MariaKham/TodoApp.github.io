@@ -1,5 +1,5 @@
-import './taskList.css'
-import Task from '../task/Task'
+import './taskList.css';
+import Task from '../task/Task';
 import React, { Component } from 'react';
 
 // const TaskList = ({ todos }) => {

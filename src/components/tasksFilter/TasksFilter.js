@@ -1,4 +1,4 @@
-import './tasksFilter.css'
+import './tasksFilter.css';
 import React, { Component } from 'react';
 
 
