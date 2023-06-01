@@ -2,7 +2,7 @@ import './taskList.css';
 import Task from '../task/Task';
 import React, { Component } from 'react';
 
-// const TaskList = ({ todos }) => {
+// const TaskList = ({ todos, onDeleted }) => {
 
 //     const elements = todos.map((item) => {
 
@@ -24,11 +24,15 @@ import React, { Component } from 'react';
 
 class TaskList extends Component {
     render() {
-        const { todos } = this.props;
+        const { todos, onDeleted } = this.props;
         return (
             <ul className="todo-list">
                 {todos.map((todo) => (
-                    <Task key={todo.id} todo={todo} />
+                    <Task
+                        key={todo.id}
+                        todo={todo}
+                        onDeleted={() => onDeleted(todo.id)}
+                    />
                 ))}
             </ul>
         );

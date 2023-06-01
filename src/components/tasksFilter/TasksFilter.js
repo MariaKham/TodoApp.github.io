@@ -4,10 +4,13 @@ import React, { Component } from 'react';
 
 class TasksFilter extends Component {
     render() {
+        // const {  } = this.props;
         return (
             <ul className="filters">
                 <li>
-                    <button type="button" className="selected">
+                    <button type="button"
+                        className="selected"
+                    >
                         All
                     </button>
                 </li>
