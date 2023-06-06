@@ -3,39 +3,23 @@ import React, { Component } from 'react';
 
 class Task extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            editing: false,
-            value: '',
-            checked: false
-        }
-    }
-    // можно просто функцию без констурктора и без this перед онклик
-    onItemClick = () => {
-        this.setState(({ checked }) => {
-            return { checked: !checked }
-        });
-    };
 
     render() {
-        const { onDeleted, id } = this.props;
-        const { checked } = this.state;
-
-
+        const { onDeleted, id, onToggleComleted, checked, todo } = this.props;
 
         return (
-            <li className={checked ? 'completed' : null}>
+            <li className={todo.checked ? "completed" : null}>
                 <div className="view">
+
                     <input
                         className="toggle"
                         type="checkbox"
+                        onChange={onToggleComleted}
                         id={id}
-                        onClick={this.onItemClick}
-
+                        checked={checked}
                     />
-                    <label>
-                        <span className="description">Completed task</span>
+                    <label htmlFor={todo.id}>
+                        <span className="description">{todo.label}</span>
                     </label>
                     <button
                         type="button"

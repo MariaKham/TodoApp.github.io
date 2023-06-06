@@ -1,7 +1,7 @@
 import NewTaskForm from '../newTaskForm/NewTaskForm';
 import TaskList from '../taskList/TaskList';
 import Footer from '../footer/Footer';
-import TaskFilter from '../tasksFilter/TasksFilter';
+// import TaskFilter from '../tasksFilter/TasksFilter';
 import React, { Component } from 'react';
 
 import './app.css'
@@ -9,57 +9,47 @@ import '../../index.css';
 
 class App extends Component {
     state = {
-        todos: []
-    };
+        todos: [],
 
+    };
 
 
     deletItem = (id) => {
         this.setState(({ todos }) => {
             const idx = todos.findIndex((el) => el.id === id);
-            const newArray = [...todos.slice(0, idx), ...todos.slice(idx + 1)]
-            return { todos: newArray }
+            return { todos: [...todos.slice(0, idx), ...todos.slice(idx + 1)] }
         });
     };
 
-    // changeCheck = (id, newItem) => {
-    //     this.setState(({ todos }) => ({
-    //         todos: todos.map((el) => {
-    //             if (id === el.id) { el.checked = newItem };
-    //             return el;
-    //         }),
-    //     }));
-    // }
+    onToggleComleted = (id) => {
+        this.setState(({ todos }) => {
+            const idx = todos.findIndex((el) => el.id === id);
+            const oldItem = todos[idx];
+            const newItem = { ...oldItem, checked: !oldItem.checked };
+            const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)];
+            return { todos: newArray }
+
+        })
+    }
 
 
-
-
-
-    addItem = (text) => {
+    addItem = (value) => {
         const newItem = {
-            label: text,
-            // checked: false,
+            label: value,
+            checked: false,
             id: this.state.todos.length + 1
         };
         this.setState(({ todos }) => {
-            const newArray = [...todos, newItem]
-            return { todos: newArray }
+            return { todos: [...todos, newItem] }
         });
     };
-
-
-
-
-
-
-
-
 
 
 
     render() {
 
-        // const todos = [];
+        const completedCount = this.state.todos.filter((el) => el.checked).length;
+        const todoCount = this.state.todos.length - completedCount;
 
         return (
             <div className="todoapp">
@@ -68,9 +58,10 @@ class App extends Component {
                 <TaskList
                     todos={this.state.todos}
                     onDeleted={this.deletItem}
-                />
-                <Footer />
-                <TaskFilter />
+                    onToggleComleted={this.onToggleComleted} />
+                <Footer
+                    toDo={todoCount} />
+
 
             </div>
         );

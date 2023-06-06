@@ -23,8 +23,9 @@ import React, { Component } from 'react';
 // };
 
 class TaskList extends Component {
+
     render() {
-        const { todos, onDeleted } = this.props;
+        const { todos, onDeleted, onToggleComleted } = this.props;
         return (
             <ul className="todo-list">
                 {todos.map((todo) => (
@@ -32,6 +33,8 @@ class TaskList extends Component {
                         key={todo.id}
                         todo={todo}
                         onDeleted={() => onDeleted(todo.id)}
+                        onToggleComleted={() => onToggleComleted(todo.id)}
+
                     />
                 ))}
             </ul>
