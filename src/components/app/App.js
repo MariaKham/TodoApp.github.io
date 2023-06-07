@@ -10,9 +10,8 @@ import '../../index.css';
 class App extends Component {
     state = {
         todos: [],
-
+        filter: "All",
     };
-
 
     deletItem = (id) => {
         this.setState(({ todos }) => {
@@ -28,10 +27,8 @@ class App extends Component {
             const newItem = { ...oldItem, checked: !oldItem.checked };
             const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)];
             return { todos: newArray }
-
-        })
+        });
     }
-
 
     addItem = (value) => {
         const newItem = {
@@ -42,8 +39,28 @@ class App extends Component {
         this.setState(({ todos }) => {
             return { todos: [...todos, newItem] }
         });
-    };
+    }
 
+
+    filteredItems = () => {
+        const { todos, filter } = this.state;
+        return todos.filter(({ checked }) => {
+            const all = filter === "All";
+            const completed = filter === "Completed";
+            return all ? true : completed ? checked === true : checked === false;
+        });
+    }
+
+    changeFilter = (newItem) => {
+        this.setState({ filter: newItem });
+    }
+
+    clearCompletedTasks = () => {
+        this.setState(({ todos }) => {
+            const newArray = todos.filter((el) => !el.checked)
+            return { todos: newArray }
+        });
+    }
 
 
     render() {
@@ -56,13 +73,15 @@ class App extends Component {
                 <NewTaskForm
                     addItem={this.addItem} />
                 <TaskList
-                    todos={this.state.todos}
+                    // todos={this.state.todos}
                     onDeleted={this.deletItem}
-                    onToggleComleted={this.onToggleComleted} />
+                    onToggleComleted={this.onToggleComleted}
+                    todos={this.filteredItems()} />
                 <Footer
-                    toDo={todoCount} />
-
-
+                    toDo={todoCount}
+                    filter={this.state.filter}
+                    changeFilter={this.changeFilter}
+                    clearCompletedTasks={this.clearCompletedTasks} />
             </div>
         );
     };

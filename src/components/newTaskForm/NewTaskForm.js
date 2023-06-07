@@ -7,8 +7,8 @@ class NewTaskForm extends Component {
         super(props);
         this.state = { value: '' };
 
-        this.onValueChange = this.onValueChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.onValueChange = this.onValueChange.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onValueChange = (e) => {
@@ -22,7 +22,6 @@ class NewTaskForm extends Component {
     };
 
     render() {
-
 
         return (
             <form className="header"

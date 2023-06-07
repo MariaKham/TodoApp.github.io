@@ -5,7 +5,7 @@ class Task extends Component {
 
 
     render() {
-        const { onDeleted, id, onToggleComleted, checked, todo } = this.props;
+        const { onDeleted, onToggleComleted, todo } = this.props;
 
         return (
             <li className={todo.checked ? "completed" : null}>
@@ -15,8 +15,8 @@ class Task extends Component {
                         className="toggle"
                         type="checkbox"
                         onChange={onToggleComleted}
-                        id={id}
-                        checked={checked}
+                        id={todo.id}
+                        checked={todo.checked}
                     />
                     <label htmlFor={todo.id}>
                         <span className="description">{todo.label}</span>

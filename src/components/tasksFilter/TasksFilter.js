@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 
 class TasksFilter extends Component {
     render() {
-        // const {  } = this.props;
+        const { filter, changeFilter } = this.props;
         return (
             <ul className="filters">
                 <li>
                     <button type="button"
-                        className="selected"
+                        onClick={() => changeFilter("All")}
+                        className={filter === "All" ? "selected" : null}
                     >
                         All
                     </button>
@@ -17,6 +18,8 @@ class TasksFilter extends Component {
                 <li>
                     <button
                         type="button"
+                        onClick={() => changeFilter("Active")}
+                        className={filter === "Active" ? "selected" : null}
                     >
                         Active
                     </button>
@@ -24,6 +27,8 @@ class TasksFilter extends Component {
                 <li>
                     <button
                         type="button"
+                        onClick={() => changeFilter("Completed")}
+                        className={filter === "Completed" ? "selected" : null}
                     >
                         Completed
                     </button>
