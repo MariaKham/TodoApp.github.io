@@ -1,8 +1,9 @@
 import './tasksFilter.css';
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 class TasksFilter extends Component {
+
     render() {
         const { filter, changeFilter } = this.props;
         return (
@@ -37,6 +38,16 @@ class TasksFilter extends Component {
         );
 
     }
+
+    static propTypes = {
+        filter: PropTypes.string.isRequired,
+        changeFilter: PropTypes.func.isRequired,
+    };
+
+    static defaultProps = {
+        filter: "All",
+    };
+
 }
 
 

@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns';
 
 class Task extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            editing: false,
+            value: '',
+        }
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const { editItem, todo: { id } } = this.props;
+        editItem(id, this.state.value);
+        this.setState({ value: '' });
+        this.setState({ editing: false });
+    };
 
 
     render() {
         const { onDeleted, onToggleComleted, todo } = this.props;
 
         return (
-            <li className={todo.checked ? "completed" : null}>
+            <li className={todo.checked ? "completed" : this.state.editing ? 'editing' : null}>
                 <div className="view">
 
                     <input
@@ -20,10 +37,22 @@ class Task extends Component {
                     />
                     <label htmlFor={todo.id}>
                         <span className="description">{todo.label}</span>
+                        <span className="created">
+                            {`created ${formatDistanceToNow(todo.date, {
+                                includeSeconds: true,
+                                addSuffix: true,
+                            })}`}
+                        </span>
                     </label>
                     <button
                         type="button"
                         className="icon icon-edit"
+                        onClick={() =>
+                            this.setState(({ editing }) => ({
+                                editing: !editing,
+                                value: this.props.todo.label,
+                            }))
+                        }
                     />
                     <button
                         type="button"
@@ -31,19 +60,37 @@ class Task extends Component {
                         onClick={onDeleted}
                     />
                 </div>
+                {this.state.editing && (
+                    <form
+                        onSubmit={this.handleSubmit}>
+                        <input
+                            type="text"
+                            className="edit"
+                            onChange={(e) => this.setState({ value: e.target.value })}
+                            value={this.state.value}
 
-                <form>
-                    <input
-                        type="text"
-                        className="edit"
-                    />
-                </form>
-
+                        />
+                    </form>
+                )}
             </li>
         );
     }
-}
 
+    static propTypes = {
+        todo: PropTypes.shape({
+            id: PropTypes.number,
+            label: PropTypes.string,
+            checked: PropTypes.bool,
+            date: PropTypes.instanceOf(Date),
+        }),
+        onDeleted: PropTypes.func.isRequired,
+        onToggleComleted: PropTypes.func.isRequired,
+    };
+
+    static defaultProps = {
+        todo: {},
+    };
+}
 
 
 export default Task;

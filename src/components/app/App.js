@@ -1,17 +1,21 @@
 import NewTaskForm from '../newTaskForm/NewTaskForm';
 import TaskList from '../taskList/TaskList';
 import Footer from '../footer/Footer';
-// import TaskFilter from '../tasksFilter/TasksFilter';
 import React, { Component } from 'react';
 
 import './app.css'
 import '../../index.css';
 
 class App extends Component {
-    state = {
-        todos: [],
-        filter: "All",
-    };
+
+    constructor() {
+        super();
+        this.state = {
+            todos: [],
+            filter: "All",
+        }
+    }
+
 
     deletItem = (id) => {
         this.setState(({ todos }) => {
@@ -34,7 +38,8 @@ class App extends Component {
         const newItem = {
             label: value,
             checked: false,
-            id: this.state.todos.length + 1
+            id: this.state.todos.length + 1,
+            date: new Date(),
         };
         this.setState(({ todos }) => {
             return { todos: [...todos, newItem] }
@@ -62,6 +67,15 @@ class App extends Component {
         });
     }
 
+    editItem = (id, text) => {
+        this.setState(({ todos }) => ({
+            todos: todos.map((el) => {
+                if (el.id === id) el.label = text;
+                return el;
+            }),
+        }));
+    }
+
 
     render() {
 
@@ -76,7 +90,8 @@ class App extends Component {
                     // todos={this.state.todos}
                     onDeleted={this.deletItem}
                     onToggleComleted={this.onToggleComleted}
-                    todos={this.filteredItems()} />
+                    todos={this.filteredItems()}
+                    editItem={this.editItem} />
                 <Footer
                     toDo={todoCount}
                     filter={this.state.filter}

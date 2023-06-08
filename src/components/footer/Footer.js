@@ -1,13 +1,10 @@
 import './footer.css';
 import React, { Component } from 'react';
 import TasksFilter from '../tasksFilter/TasksFilter';
+import PropTypes from 'prop-types';
 
 class Footer extends Component {
 
-    state = {
-        toDo: 0,
-        filter: "All",
-    }
     render() {
         const { toDo, filter, changeFilter, clearCompletedTasks } = this.props;
 
@@ -28,6 +25,19 @@ class Footer extends Component {
             </footer>
         );
     }
+
+    static propTypes = {
+        toDo: PropTypes.number,
+        clearCompletedTasks: PropTypes.func.isRequired,
+        changeFilter: PropTypes.func.isRequired,
+        filter: PropTypes.string,
+    };
+
+    static defaultProps = {
+        toDo: 0,
+        filter: "All",
+    }
+
 }
 
 
