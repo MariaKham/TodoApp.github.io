@@ -26,7 +26,7 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 12,
+        "ecmaVersion": "latest",
         "sourceType": "module",
         "allowImportExportEverywhere": false,
         "codeFrame": true,
@@ -35,8 +35,8 @@
             "babelrc": true,
             "configFile": false,
             "presets": [
-                "@babel/preset-env"
-                // '@babel/eslint-parser'
+                // "@babel/preset-env"
+                "@babel/eslint-parser"
             ]
         }
     },
