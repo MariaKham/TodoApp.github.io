@@ -4,26 +4,26 @@ import { formatDistanceToNow } from 'date-fns';
 
 class Task extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       editing: false,
       value: '',
-    }
+    };
   }
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const {
       editItem,
       todo: { id },
-    } = this.props
-    editItem(id, this.state.value.trim())
-    this.setState({ value: '' })
-    this.setState({ editing: false })
+    } = this.props;
+    editItem(id, this.state.value.trim());
+    this.setState({ value: '' });
+    this.setState({ editing: false });
   }
 
   render() {
-    const { onDeleted, onToggleComleted, todo, addItem, editItem } = this.props
+    const { onDeleted, onToggleComleted, todo, addItem, editItem } = this.props;
 
     return (
       <li className={todo.checked ? 'completed' : this.state.editing ? 'editing' : null}>
@@ -67,10 +67,10 @@ class Task extends Component {
           </form>
         )}
       </li>
-    )
+    );
   }
-
-  static propTypes = {
+}
+  Task.propTypes = {
     todo: PropTypes.shape({
       id: PropTypes.number,
       label: PropTypes.string,
@@ -79,11 +79,11 @@ class Task extends Component {
     }),
     onDeleted: PropTypes.func.isRequired,
     onToggleComleted: PropTypes.func.isRequired,
-  }
+  };
 
-  static defaultProps = {
+  Task.defaultProps = {
     todo: {},
-  }
-}
+  };
+
 
 export default Task;

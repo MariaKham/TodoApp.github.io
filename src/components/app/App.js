@@ -19,17 +19,17 @@ class App extends Component {
 
   deletItem = (id) => {
     this.setState(({ todos }) => {
-      const idx = todos.findIndex((el) => el.id === id)
+      const idx = todos.findIndex((el) => el.id === id);
       return { todos: [...todos.slice(0, idx), ...todos.slice(idx + 1)] }
-    })
+    });
   }
 
   onToggleComleted = (id) => {
     this.setState(({ todos }) => {
-      const idx = todos.findIndex((el) => el.id === id)
-      const oldItem = todos[idx]
+      const idx = todos.findIndex((el) => el.id === id);
+      const oldItem = todos[idx];
       const newItem = { ...oldItem, checked: !oldItem.checked }
-      const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]
+      const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)];
       return { todos: newArray }
     })
   }
@@ -50,19 +50,19 @@ class App extends Component {
   filteredItems = () => {
     const { todos, filter } = this.state
     return todos.filter(({ checked }) => {
-      const all = filter === 'All'
-      const completed = filter === 'Completed'
+      const all = filter === 'All';
+      const completed = filter === 'Completed';
       return all ? true : completed ? checked === true : checked === false
-    })
+    });
   }
 
   changeFilter = (newItem) => {
-    this.setState({ filter: newItem })
+    this.setState({ filter: newItem });
   }
 
   clearCompletedTasks = () => {
     this.setState(({ todos }) => {
-      const newArray = todos.filter((el) => !el.checked)
+      const newArray = todos.filter((el) => !el.checked);
       return { todos: newArray }
     })
   }
@@ -78,13 +78,12 @@ class App extends Component {
 
   render() {
     const completedCount = this.state.todos.filter((el) => el.checked).length;
-    const todoCount = this.state.todos.length - completedCount
+    const todoCount = this.state.todos.length - completedCount;
 
     return (
       <div className="todoapp">
         <NewTaskForm addItem={this.addItem} />
         <TaskList
-          // todos={this.state.todos}
           onDeleted={this.deletItem}
           onToggleComleted={this.onToggleComleted}
           todos={this.filteredItems()}
@@ -97,7 +96,7 @@ class App extends Component {
           clearCompletedTasks={this.clearCompletedTasks}
         />
       </div>
-    )
+    );
   }
 }
 

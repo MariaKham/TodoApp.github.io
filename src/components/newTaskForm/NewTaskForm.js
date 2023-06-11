@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class NewTaskForm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = { value: '' }
 
     // this.onValueChange = this.onValueChange.bind(this);
@@ -10,13 +10,13 @@ class NewTaskForm extends Component {
   }
 
   onValueChange = (e) => {
-    this.setState({ value: e.target.value })
+    this.setState({ value: e.target.value });
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.state.value.trim()) this.props.addItem(this.state.value)
-    this.setState({ value: '' })
+    this.setState({ value: '' });
   }
 
   render() {
