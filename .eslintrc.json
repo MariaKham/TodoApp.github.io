@@ -32,7 +32,7 @@
         "codeFrame": true,
         "requireConfigFile": false,
         "babelOptions": {
-            "babelrc": false,
+            "babelrc": true,
             "configFile": false,
             "presets": [
                 "@babel/preset-env"
