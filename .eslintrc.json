@@ -35,7 +35,8 @@
             "babelrc": true,
             "configFile": false,
             "presets": [
-                "@babel/preset-react"
+                "@babel/preset-env"
+                // '@babel/eslint-parser'
             ]
         }
     },
