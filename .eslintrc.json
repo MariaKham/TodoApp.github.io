@@ -32,13 +32,11 @@
         "codeFrame": true,
         "requireConfigFile": false,
         "babelOptions": {
-            "babelrc": true,
-            "configFile": false,
+            "babelrc": false,
+            "configFile": false
             // "presets": [
-            //      "@babel/preset-env"
-            //    "module": "@babel/eslint-parser"
-            // ],
-            "module": "@babel/eslint-parser"
+            //     "@babel/eslint-parser"
+            // ]
         }
     },
     "parser": "@babel/eslint-parser",
@@ -81,7 +79,7 @@
                 "avoidEscape": true
             }
         ],
-        "semi": 1,
+        "semi": 0,
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
