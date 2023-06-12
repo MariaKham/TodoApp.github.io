@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class NewTaskForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = { value: '' }
 
     // this.onValueChange = this.onValueChange.bind(this);
@@ -10,13 +10,13 @@ class NewTaskForm extends Component {
   }
 
   onValueChange = (e) => {
-    this.setState({ value: e.target.value });
+    this.setState({ value: e.target.value })
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.state.value.trim()) this.props.addItem(this.state.value)
-    this.setState({ value: '' });
+    this.setState({ value: '' })
   }
 
   render() {
@@ -24,6 +24,7 @@ class NewTaskForm extends Component {
       <form className="header" onSubmit={this.handleSubmit}>
         <h1>Todos</h1>
         <label>
+          todo
           <input
             className="new-todo"
             onChange={this.onValueChange}
@@ -36,4 +37,4 @@ class NewTaskForm extends Component {
   }
 }
 
-export default NewTaskForm;
+export default NewTaskForm

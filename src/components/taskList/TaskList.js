@@ -1,12 +1,12 @@
-import './taskList.css';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import './taskList.css'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import Task from '../task/Task';
+import Task from '../task/Task'
 
 class TaskList extends Component {
   render() {
-    const { todos, onDeleted, onToggleComleted, editItem } = this.props;
+    const { todos, onDeleted, onToggleComleted, editItem } = this.props
     return (
       <ul className="todo-list">
         {todos.map((todo) => (
@@ -19,21 +19,19 @@ class TaskList extends Component {
           />
         ))}
       </ul>
-    );
+    )
   }
 }
 
 TaskList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object),
+  todos: PropTypes.instanceOf(Object),
   onDeleted: PropTypes.func.isRequired,
   onToggleComleted: PropTypes.func.isRequired,
   editItem: PropTypes.func.isRequired,
-};
+}
 
 TaskList.defaultProps = {
   todos: [],
-};
+}
 
-export default TaskList;
-
-
+export default TaskList

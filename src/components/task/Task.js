@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { formatDistanceToNow } from 'date-fns';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { formatDistanceToNow } from 'date-fns'
 
 class Task extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       editing: false,
       value: '',
-    };
+    }
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const {
       editItem,
       todo: { id },
-    } = this.props;
-    editItem(id, this.state.value.trim());
-    this.setState({ value: '' });
-    this.setState({ editing: false });
+    } = this.props
+    editItem(id, this.state.value.trim())
+    this.setState({ value: '' })
+    this.setState({ editing: false })
   }
 
   render() {
-    const { onDeleted, onToggleComleted, todo, addItem, editItem } = this.props;
+    const { onDeleted, onToggleComleted, todo } = this.props
 
     return (
       <li className={todo.checked ? 'completed' : this.state.editing ? 'editing' : null}>
@@ -41,17 +41,11 @@ class Task extends Component {
           <button
             type="button"
             className="icon icon-edit"
-            // onClick={() =>
-            //     this.setState(({ editing }) => ({
-            //         editing: !editing,
-            //         value: this.props.todo.label,
-            //     }))
-            // }
             onClick={() =>
-              this.setState({
-                editing: !this.state.editing,
+              this.setState(({ editing }) => ({
+                editing: !editing,
                 value: this.props.todo.label,
-              })
+              }))
             }
           />
           <button type="button" className="icon icon-destroy" onClick={onDeleted} />
@@ -67,23 +61,22 @@ class Task extends Component {
           </form>
         )}
       </li>
-    );
+    )
   }
 }
-  Task.propTypes = {
-    todo: PropTypes.shape({
-      id: PropTypes.number,
-      label: PropTypes.string,
-      checked: PropTypes.bool,
-      date: PropTypes.instanceOf(Date),
-    }),
-    onDeleted: PropTypes.func.isRequired,
-    onToggleComleted: PropTypes.func.isRequired,
-  };
+Task.propTypes = {
+  todo: PropTypes.shape({
+    id: PropTypes.number,
+    label: PropTypes.string,
+    checked: PropTypes.bool,
+    date: PropTypes.instanceOf(Date),
+  }),
+  onDeleted: PropTypes.func.isRequired,
+  onToggleComleted: PropTypes.func.isRequired,
+}
 
-  Task.defaultProps = {
-    todo: {},
-  };
+Task.defaultProps = {
+  todo: {},
+}
 
-
-export default Task;
+export default Task

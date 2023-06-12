@@ -3,6 +3,11 @@
     "trailingComma": "es5",
     "endOfLine": "lf",
     "printWidth": 120,
-    "semi": true,
-    "bracketSpacing": true
+    "tabWidth": 2,
+    "tabs": false,
+    "semi": false,
+    "quoteProps": "as-needed",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "parser": "babel"
 }

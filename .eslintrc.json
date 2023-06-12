@@ -23,6 +23,13 @@
         "prettier"
     ],
     "parserOptions": {
+        "babelOptions": {
+            "parserOpts": {
+                "plugins": [
+                    "jsx"
+                ]
+            }
+        },
         "ecmaFeatures": {
             "jsx": true
         },
@@ -30,14 +37,7 @@
         "sourceType": "module",
         "allowImportExportEverywhere": false,
         "codeFrame": true,
-        "requireConfigFile": false,
-        "babelOptions": {
-            "babelrc": false,
-            "configFile": false
-            // "presets": [
-            //     "@babel/eslint-parser"
-            // ]
-        }
+        "requireConfigFile": false
     },
     "parser": "@babel/eslint-parser",
     "plugins": [
@@ -48,6 +48,9 @@
         "react-hooks"
     ],
     "rules": {
+        "react/destructuring-assignment": 0,
+        "react/prefer-stateless-function": 0,
+        "jsx-a11y/label-has-associated-control": 0,
         "react-hooks/exhaustive-deps": [
             "warn",
             {
@@ -79,7 +82,10 @@
                 "avoidEscape": true
             }
         ],
-        "semi": "off",
+        "semi": [
+            "error",
+            "never"
+        ],
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
@@ -117,6 +123,9 @@
         ]
     },
     "settings": {
+        "react": {
+            "version": "detect"
+        },
         "import/resolver": {
             "node": {
                 "extensions": [
