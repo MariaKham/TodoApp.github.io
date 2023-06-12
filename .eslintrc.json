@@ -79,12 +79,13 @@
                 "avoidEscape": true
             }
         ],
-        "semi": 0,
+        "semi": "off",
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "react/prop-types": 0,
-        "jsx-a11y/rule-name": 2,
+        "no-destructive": "off",
+        // "jsx-a11y/rule-name": 2,
         "import/no-unresolved": [
             2,
             {
