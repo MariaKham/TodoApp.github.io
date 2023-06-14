@@ -17,28 +17,25 @@ class App extends Component {
     }
   }
 
-  deletItem = (id) => {
-    this.setState(({ todos }) => {
-      const idx = todos.findIndex((el) => el.id === id)
-      return { todos: [...todos.slice(0, idx), ...todos.slice(idx + 1)] }
-    })
+  deletItem = (idx) => {
+    this.setState(({ todos }) => ({
+      todos: todos.filter(({ id }) => id !== idx),
+    }))
   }
 
-  onToggleComleted = (id) => {
-    this.setState(({ todos }) => {
-      const idx = todos.findIndex((el) => el.id === id)
-      const oldItem = todos[idx]
-      const newItem = { ...oldItem, checked: !oldItem.checked }
-      const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]
-      return { todos: newArray }
-    })
+  onToggleComleted = (idx) => {
+    this.setState(({ todos }) => ({
+      todos: todos.map((el) => {
+        if (idx === el.id) el.checked = !el.checked // eslint-disable-line no-param-reassign
+        return el
+      }),
+    }))
   }
 
   addItem = (value) => {
     const newItem = {
       label: value,
       checked: false,
-      // id: this.state.todos.length + 1,
       id: this.maxId++,
       date: new Date(),
     }

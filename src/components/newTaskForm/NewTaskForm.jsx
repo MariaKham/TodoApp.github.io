@@ -24,7 +24,6 @@ class NewTaskForm extends Component {
       <form className="header" onSubmit={this.handleSubmit}>
         <h1>Todos</h1>
         <label>
-          todo
           <input
             className="new-todo"
             onChange={this.onValueChange}
