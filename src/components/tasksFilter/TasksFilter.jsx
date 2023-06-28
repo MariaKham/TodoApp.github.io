@@ -5,9 +5,6 @@ import PropTypes from 'prop-types'
 function TasksFilter({ filter, changeFilter }) {
   return (
     <ul className="filters">
-      /* не могу сообразить как применить здесь цикл, если бы нужно было только имя класса поменять в зависимости от знач. фильтра - понятно, 
-но наличие ф-и со своим парам-м у каждой кнопки меня сбивает с толку.. перелопатила стать и видео, адекватная реализация только с useState, но это следующая тема..
-остальное пофиксила согласно комментам */
       <li>
         <button type="button" onClick={() => changeFilter('All')} className={filter === 'All' ? 'selected' : null}>
           All

@@ -3,12 +3,53 @@ import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
 class Task extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      editing: false,
-      value: '',
+      value: this.props.label,
+      pause: true,
+      timer: this.props.timer,
     }
+  }
+
+  componentDidMount() {
+    this.timer()
+  }
+
+  componentWillUnmount() {
+    const { id, changeTimerValue } = this.props
+    const { timer } = this.state
+
+    clearInterval(this.timerID)
+    changeTimerValue(id, timer)
+  }
+
+  timer = () => {
+    this.timerID = setInterval(() => {
+      this.timerRun()
+    }, 1000)
+  }
+
+  timerRun = () => {
+    const { pause, timer } = this.state
+
+    if (!pause) this.setState({ timer: timer - 1 })
+  }
+
+  setTimer = () => {
+    const { timer } = this.state
+
+    if (timer < 0) return '00:00'
+    return `${String(Math.floor(timer / 60)).padStart(2, '0')}:
+      ${String(Math.floor(timer % 60)).padStart(2, '0')}`
+  }
+
+  handleStartTimer = () => {
+    this.setState({ pause: false })
+  }
+
+  handlePauseTimer = () => {
+    this.setState({ pause: true })
   }
 
   handleSubmit = (e) => {
@@ -31,12 +72,17 @@ class Task extends Component {
           <input className="toggle" type="checkbox" onChange={onToggleComleted} id={todo.id} checked={todo.checked} />
           <label htmlFor={todo.id}>
             <span className="description">{todo.label}</span>
-            <span className="created">
-              {`created ${formatDistanceToNow(todo.date, {
-                includeSeconds: true,
-                addSuffix: true,
-              })}`}
+            <span className="description-info">
+              <button type="button" className="icon icon-play" onClick={this.handleStartTimer} />
+              <button type="button" className="icon icon-pause" onClick={this.handlePauseTimer} />
+              <span className="created">
+                <span className="timer">{this.setTimer()}</span>
+              </span>
             </span>
+            <span className="created">{`created ${formatDistanceToNow(todo.date, {
+              includeSeconds: true,
+              addSuffix: true,
+            })}`}</span>
           </label>
           <button
             type="button"
@@ -70,6 +116,7 @@ Task.propTypes = {
     label: PropTypes.string,
     checked: PropTypes.bool,
     date: PropTypes.instanceOf(Date),
+    timer: PropTypes.number,
   }),
   onDeleted: PropTypes.func.isRequired,
   onToggleComleted: PropTypes.func.isRequired,

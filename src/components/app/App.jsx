@@ -23,6 +23,22 @@ class App extends Component {
     }))
   }
 
+  addItem = (value, time) => {
+    if (value) {
+      const newItem = {
+        label: value,
+        timer: time,
+        checked: false,
+        editing: false,
+        id: this.maxId++,
+        date: new Date(),
+      }
+      this.setState(({ todos }) => {
+        return { todos: [...todos, newItem] }
+      })
+    }
+  }
+
   onToggleComleted = (idx) => {
     this.setState(({ todos }) => ({
       todos: todos.map((el) => {
@@ -30,18 +46,6 @@ class App extends Component {
         return el
       }),
     }))
-  }
-
-  addItem = (value) => {
-    const newItem = {
-      label: value,
-      checked: false,
-      id: this.maxId++,
-      date: new Date(),
-    }
-    this.setState(({ todos }) => {
-      return { todos: [...todos, newItem] }
-    })
   }
 
   filteredItems = () => {
@@ -73,6 +77,23 @@ class App extends Component {
     }))
   }
 
+  changeTimerValue = (id, value) => {
+    this.setState(({ todos }) => {
+      const index = todos.findIndex((el) => {
+        return el.id === id
+      })
+
+      const oldItem = todos[index]
+      if (typeof oldItem === 'undefined') return
+      const newItem = { ...oldItem, timer: value }
+      const newArray = [...todos.slice(0, index), newItem, ...todos.slice(index + 1)]
+
+      return {
+        todos: newArray,
+      }
+    })
+  }
+
   render() {
     const completedCount = this.state.todos.filter((el) => el.checked).length
     const todoCount = this.state.todos.length - completedCount
@@ -85,6 +106,7 @@ class App extends Component {
           onToggleComleted={this.onToggleComleted}
           todos={this.filteredItems()}
           editItem={this.editItem}
+          changeTimerValue={this.changeTimerValue}
         />
         <Footer
           toDo={todoCount}

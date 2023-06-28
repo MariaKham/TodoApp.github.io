@@ -3,35 +3,77 @@ import React, { Component } from 'react'
 class NewTaskForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { value: '' }
+    this.state = { value: '', min: '', sec: '' }
 
     // this.onValueChange = this.onValueChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { value, min, sec } = this.state
+    const timerSec = parseInt(min || 0, 10) * 60 + parseInt(sec || 0, 10)
+    this.props.addItem(value, timerSec)
+    this.setState({
+      value: '',
+      min: '',
+      sec: '',
+    })
   }
 
   onValueChange = (e) => {
     this.setState({ value: e.target.value })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    if (this.state.value.trim()) this.props.addItem(this.state.value)
-    this.setState({ value: '' })
+  onMinChange = (e) => {
+    this.setState({
+      min: e.target.value,
+    })
+  }
+
+  onSecChange = (e) => {
+    this.setState({
+      sec: e.target.value,
+    })
   }
 
   render() {
+    const { value, min, sec } = this.state
     return (
-      <form className="header" onSubmit={this.handleSubmit}>
+      <header className="header">
         <h1>Todos</h1>
-        <label>
+        <form className="new-todo-form" onSubmit={this.handleSubmit}>
           <input
             className="new-todo"
             onChange={this.onValueChange}
-            value={this.state.value}
+            value={value}
             placeholder="What needs to be done?"
+            required
           />
-        </label>
-      </form>
+          <input
+            className="new-todo-form__timer"
+            placeholder="Min"
+            onChange={this.onMinChange}
+            value={min}
+            type="number"
+            step="1"
+            min="0"
+            required
+          />
+          <input
+            className="new-todo-form__timer"
+            placeholder="Sec"
+            onChange={this.onSecChange}
+            value={sec}
+            type="number"
+            step="1"
+            min="0"
+            max="60"
+            required
+          />
+          <button type="submit" />
+        </form>
+      </header>
     )
   }
 }
