@@ -4,9 +4,6 @@ class NewTaskForm extends Component {
   constructor(props) {
     super(props)
     this.state = { value: '', min: '', sec: '' }
-
-    // this.onValueChange = this.onValueChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit = (e) => {
