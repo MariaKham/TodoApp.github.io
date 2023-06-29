@@ -36,7 +36,6 @@ class Task extends Component {
 
     if (this.props.timer === 0 && !pause && !checked) this.setState({ timer: timer + 1 })
     else if (this.props.timer !== 0 && !checked && !pause) this.setState({ timer: timer - 1 })
-    if (this.props.checked === true) this.setState({ pause: true })
   }
 
   onToggleTimer = () => {
