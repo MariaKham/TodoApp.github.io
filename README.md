@@ -1,1 +1,1 @@
-Todo with timer https://todo-timer-flax.vercel.app/
+Todo with timer https://todo-app-github-io.vercel.app/
