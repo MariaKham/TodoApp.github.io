@@ -58,7 +58,6 @@ class NewTaskForm extends Component {
             type="number"
             step="1"
             min="0"
-            required
           />
           <input
             className="new-todo-form__timer"
@@ -68,8 +67,7 @@ class NewTaskForm extends Component {
             type="number"
             step="1"
             min="0"
-            max="60"
-            required
+            max="59"
           />
           <button type="submit" />
         </form>

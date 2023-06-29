@@ -331,6 +331,10 @@ body {
     content: '▶';
 }
 
+.icon-play:disabled {
+    filter: grayscale(.5)
+}
+
 .todo-list li .edit {
     display: none;
 }
