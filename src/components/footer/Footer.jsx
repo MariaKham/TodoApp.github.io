@@ -16,21 +16,6 @@ function Footer({ toDo, filter, changeFilter, clearCompletedTasks }) {
   )
 }
 
-// class Footer extends Component {
-//   render() {
-//     const { toDo, filter, changeFilter, clearCompletedTasks } = this.props
-
-//     return (
-//       <footer className="footer">
-//         <span className="todo-count">{toDo} items left</span>
-//         <TasksFilter filter={filter} changeFilter={changeFilter} />
-//         <button type="button" className="clear-completed" onClick={clearCompletedTasks}>
-//           Clear completed
-//         </button>
-//       </footer>
-//     )
-//   }
-// }
 
 Footer.propTypes = {
   toDo: PropTypes.number,
