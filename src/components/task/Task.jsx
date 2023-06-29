@@ -9,6 +9,7 @@ class Task extends Component {
       value: this.props.label,
       pause: true,
       timer: this.props.timer,
+      checked: false,
     }
   }
 
@@ -31,9 +32,16 @@ class Task extends Component {
   }
 
   timerRun = () => {
-    const { pause, timer } = this.state
+    const { pause, timer, checked } = this.state
 
-    if (!pause) this.setState({ timer: timer - 1 })
+    if (this.props.timer === 0 && !pause && !checked) this.setState({ timer: timer + 1 })
+    else if (this.props.timer !== 0 && !checked && !pause) this.setState({ timer: timer - 1 })
+  }
+
+  onToggleTimer = () => {
+    const { checked } = this.state
+    if (checked) return
+    this.setState({ pause: true })
   }
 
   setTimer = () => {
@@ -69,11 +77,23 @@ class Task extends Component {
     return (
       <li className={todo.checked ? 'completed' : this.state.editing ? 'editing' : null}>
         <div className="view">
-          <input className="toggle" type="checkbox" onChange={onToggleComleted} id={todo.id} checked={todo.checked} />
+          <input
+            className="toggle"
+            type="checkbox"
+            onChange={onToggleComleted}
+            id={todo.id}
+            checked={todo.checked}
+            onClick={() => this.onToggleTimer(todo.id)}
+          />
           <label htmlFor={todo.id}>
             <span className="description">{todo.label}</span>
             <span className="description-info">
-              <button type="button" className="icon icon-play" onClick={this.handleStartTimer} />
+              <button
+                type="button"
+                className="icon icon-play"
+                onClick={this.handleStartTimer}
+                disabled={todo.checked}
+              />
               <button type="button" className="icon icon-pause" onClick={this.handlePauseTimer} />
               <span className="created">
                 <span className="timer">{this.setTimer()}</span>
