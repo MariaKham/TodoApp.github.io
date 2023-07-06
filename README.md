@@ -1,1 +1,1 @@
-https://todo-app-github-io.vercel.app/
+https://todo-timer-moresia94-mailru.vercel.app/
