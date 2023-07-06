@@ -1,14 +1,15 @@
-import './footer.css'
 import React from 'react'
 import PropTypes from 'prop-types'
+import './footer.css'
 
 import TasksFilter from '../tasksFilter/TasksFilter'
 
-function Footer({ toDo, filter, changeFilter, clearCompletedTasks }) {
+function Footer({ todos, filterValue, clearCompletedTasks, changeFilter }) {
+  const todoCount = todos.length - todos.filter((el) => el.checked).length
   return (
     <footer className="footer">
-      <span className="todo-count">{toDo} items left</span>
-      <TasksFilter filter={filter} changeFilter={changeFilter} />
+      <span className="todo-count">{todoCount} items left</span>
+      <TasksFilter filterValue={filterValue} changeFilter={changeFilter} />
       <button type="button" className="clear-completed" onClick={clearCompletedTasks}>
         Clear completed
       </button>
@@ -17,15 +18,8 @@ function Footer({ toDo, filter, changeFilter, clearCompletedTasks }) {
 }
 
 Footer.propTypes = {
-  toDo: PropTypes.number,
   clearCompletedTasks: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
-  filter: PropTypes.string,
-}
-
-Footer.defaultProps = {
-  toDo: 0,
-  filter: 'All',
 }
 
 export default Footer

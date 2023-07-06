@@ -1,134 +1,96 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
-class Task extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: this.props.label,
-      pause: true,
-      timer: this.props.timer,
-      checked: false,
-    }
+function Task(props) {
+  const [value, setValue] = useState(props.label)
+  const [pause, setPause] = useState(true)
+  const [timer, setTimer] = useState(props.timer)
+
+  const timerRun = () => {
+    if (props.timer === 0 && !pause && !props.checked)
+      setTimer((timerValue) => {
+        return timerValue + 1
+      })
+    else if (timer !== 0 && !props.checked && !pause)
+      setTimer((timerValue) => {
+        return timerValue - 1
+      })
   }
 
-  componentDidMount() {
-    this.timer()
-  }
-
-  componentWillUnmount() {
-    const { id, changeTimerValue } = this.props
-    const { timer } = this.state
-
-    clearInterval(this.timerID)
-    changeTimerValue(id, timer)
-  }
-
-  timer = () => {
-    this.timerID = setInterval(() => {
-      this.timerRun()
+  useEffect(() => {
+    const timerID = setInterval(() => {
+      timerRun()
     }, 1000)
+    return () => {
+      clearInterval(timerID)
+      props.changeTimerValue(props.todo.id, timer)
+    }
+  }, [pause])
+
+  const onToggleTimer = () => {
+    if (props.checked) return
+    setPause(true)
   }
 
-  timerRun = () => {
-    const { pause, timer, checked } = this.state
-
-    if (this.props.timer === 0 && !pause && !checked) this.setState({ timer: timer + 1 })
-    else if (this.props.timer !== 0 && !checked && !pause) this.setState({ timer: timer - 1 })
-  }
-
-  onToggleTimer = () => {
-    const { checked } = this.state
-    if (checked) return
-    this.setState({ pause: true })
-  }
-
-  setTimer = () => {
-    const { timer } = this.state
-
+  const timerSet = () => {
     if (timer < 0) return '00:00'
     return `${String(Math.floor(timer / 60)).padStart(2, '0')}:
       ${String(Math.floor(timer % 60)).padStart(2, '0')}`
   }
 
-  handleStartTimer = () => {
-    this.setState({ pause: false })
+  const handleStartTimer = () => {
+    setPause(false)
   }
 
-  handlePauseTimer = () => {
-    this.setState({ pause: true })
+  const handlePauseTimer = () => {
+    setPause(true)
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    const {
-      editItem,
-      todo: { id },
-    } = this.props
-    editItem(id, this.state.value.trim())
-    this.setState({ value: '' })
-    this.setState({ editing: false })
-  }
-
-  render() {
-    const { onDeleted, onToggleComleted, todo } = this.props
-
-    return (
-      <li className={todo.checked ? 'completed' : this.state.editing ? 'editing' : null}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            onChange={onToggleComleted}
-            id={todo.id}
-            checked={todo.checked}
-            onClick={() => this.onToggleTimer(todo.id)}
-          />
-          <label htmlFor={todo.id}>
-            <span className="description">{todo.label}</span>
-            <span className="description-info">
-              <button
-                type="button"
-                className="icon icon-play"
-                onClick={this.handleStartTimer}
-                disabled={todo.checked}
-              />
-              <button type="button" className="icon icon-pause" onClick={this.handlePauseTimer} />
-              <span className="created">
-                <span className="timer">{this.setTimer()}</span>
-              </span>
+  return props.editing ? (
+    <li className="editing">
+      <form onSubmit={props.onSubmitEdit}>
+        <input
+          id={props.id}
+          key={props.id}
+          className="edit"
+          type="text"
+          defaultValue={value}
+          placeholder={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </form>
+    </li>
+  ) : (
+    <li className={props.todo.checked ? 'completed' : ''}>
+      <div className="view">
+        <input
+          className="toggle"
+          type="checkbox"
+          onChange={props.onToggleComleted}
+          id={props.todo.id}
+          checked={props.todo.checked}
+          onClick={() => onToggleTimer(props.todo.id)}
+        />
+        <label htmlFor={props.id}>
+          <span className="description">{props.todo.label}</span>
+          <span className="description-info">
+            <button type="button" className="icon icon-play" onClick={handleStartTimer} disabled={props.todo.checked} />
+            <button type="button" className="icon icon-pause" onClick={handlePauseTimer} />
+            <span className="created">
+              <span className="timer">{timerSet()}</span>
             </span>
-            <span className="created">{`created ${formatDistanceToNow(todo.date, {
-              includeSeconds: true,
-              addSuffix: true,
-            })}`}</span>
-          </label>
-          <button
-            type="button"
-            className="icon icon-edit"
-            onClick={() =>
-              this.setState(({ editing }) => ({
-                editing: !editing,
-                value: this.props.todo.label,
-              }))
-            }
-          />
-          <button type="button" className="icon icon-destroy" onClick={onDeleted} />
-        </div>
-        {this.state.editing && (
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              className="edit"
-              onChange={(e) => this.setState({ value: e.target.value })}
-              value={this.state.value}
-            />
-          </form>
-        )}
-      </li>
-    )
-  }
+          </span>
+          <span className="created">{`created ${formatDistanceToNow(props.date, {
+            includeSeconds: true,
+            addSuffix: true,
+          })}`}</span>
+        </label>
+        <button type="button" className="icon icon-edit" onClick={props.editItem} />
+        <button type="button" className="icon icon-destroy" onClick={props.onDeleted} />
+      </div>
+    </li>
+  )
 }
 Task.propTypes = {
   todo: PropTypes.shape({

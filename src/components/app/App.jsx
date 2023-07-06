@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useRef } from 'react'
 
 import NewTaskForm from '../newTaskForm/NewTaskForm'
 import TaskList from '../taskList/TaskList'
@@ -6,117 +6,126 @@ import Footer from '../footer/Footer'
 
 import '../../index.css'
 
-class App extends Component {
-  maxId = 100
+function App() {
+  const [todos, setTodos] = useState([])
+  const [filterValue, setFilter] = useState('All')
+  const maxId = useRef(1)
 
-  constructor() {
-    super()
-    this.state = {
-      todos: [],
-      filter: 'All',
-    }
+  const deletItem = (idx) => {
+    setTodos((data) => {
+      return data.filter(({ id }) => id !== idx)
+    })
   }
 
-  deletItem = (idx) => {
-    this.setState(({ todos }) => ({
-      todos: todos.filter(({ id }) => id !== idx),
-    }))
-  }
-
-  addItem = (value, time) => {
+  const addItem = (value, time) => {
     if (value) {
       const newItem = {
         label: value,
         timer: time,
         checked: false,
         editing: false,
-        id: this.maxId++,
+        id: maxId.current++,
         date: new Date(),
       }
-      this.setState(({ todos }) => {
-        return { todos: [...todos, newItem] }
+      setTodos((data) => {
+        return [...data, newItem]
       })
     }
   }
 
-  onToggleComleted = (idx) => {
-    this.setState(({ todos }) => ({
-      todos: todos.map((el) => {
+  const onToggleComleted = (idx) => {
+    setTodos((data) => {
+      return data.map((el) => {
         if (idx === el.id) el.checked = !el.checked // eslint-disable-line no-param-reassign
         return el
-      }),
-    }))
-  }
-
-  filteredItems = () => {
-    const { todos, filter } = this.state
-    return todos.filter(({ checked }) => {
-      const all = filter === 'All'
-      const completed = filter === 'Completed'
-      return all ? true : completed ? checked === true : checked === false
+      })
     })
   }
 
-  changeFilter = (newItem) => {
-    this.setState({ filter: newItem })
+  const filteredItems = () => {
+    switch (filterValue) {
+      case 'all':
+        return todos
+      case 'active':
+        return todos.filter((el) => !el.checked)
+      case 'checked':
+        return todos.filter((el) => el.checked)
+      default:
+        return todos
+    }
   }
 
-  clearCompletedTasks = () => {
-    this.setState(({ todos }) => {
-      const newArray = todos.filter((el) => !el.checked)
-      return { todos: newArray }
+  const changeFilter = (filterName) => {
+    setFilter(filterName)
+  }
+
+  const clearCompletedTasks = () => {
+    setTodos((data) => {
+      return data.filter((el) => !el.checked)
     })
   }
 
-  editItem = (id, text) => {
-    this.setState(({ todos }) => ({
-      todos: todos.map((el) => {
-        if (el.id === id) el.label = text // eslint-disable-line no-param-reassign
+  const editItem = (id) => {
+    setTodos((data) => {
+      return data.map((el) => {
+        if (id === el.id) el.editing = !el.editing // eslint-disable-line no-param-reassign
         return el
-      }),
-    }))
+      })
+    })
   }
 
-  changeTimerValue = (id, value) => {
-    this.setState(({ todos }) => {
-      const index = todos.findIndex((el) => {
+  const onSubmitEdit = (event, id) => {
+    event.preventDefault()
+    setTodos((data) => {
+      const idx = data.findIndex((el) => el.id === id)
+      const oldItem = data[idx]
+
+      const newItem = {
+        ...oldItem,
+        editing: !oldItem.editing,
+        label: event.target[0].value,
+      }
+
+      const newArray = [...data.slice(0, idx), newItem, ...data.slice(idx + 1)]
+
+      return newArray
+    })
+  }
+
+  const changeTimerValue = (id, value) => {
+    setTodos((data) => {
+      const index = data.findIndex((el) => {
         return el.id === id
       })
 
-      const oldItem = todos[index]
-      if (typeof oldItem === 'undefined') return
+      const oldItem = data[index]
+      if (typeof oldItem === 'undefined') return data
       const newItem = { ...oldItem, timer: value }
-      const newArray = [...todos.slice(0, index), newItem, ...todos.slice(index + 1)]
+      const newArray = [...data.slice(0, index), newItem, ...data.slice(index + 1)]
 
-      return {
-        todos: newArray,
-      }
+      return newArray
     })
   }
 
-  render() {
-    const completedCount = this.state.todos.filter((el) => el.checked).length
-    const todoCount = this.state.todos.length - completedCount
-
-    return (
-      <div className="todoapp">
-        <NewTaskForm addItem={this.addItem} />
-        <TaskList
-          onDeleted={this.deletItem}
-          onToggleComleted={this.onToggleComleted}
-          todos={this.filteredItems()}
-          editItem={this.editItem}
-          changeTimerValue={this.changeTimerValue}
-        />
-        <Footer
-          toDo={todoCount}
-          filter={this.state.filter}
-          changeFilter={this.changeFilter}
-          clearCompletedTasks={this.clearCompletedTasks}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className="todoapp">
+      <NewTaskForm addItem={addItem} />
+      <TaskList
+        todos={filteredItems()}
+        onDeleted={deletItem}
+        onToggleComleted={onToggleComleted}
+        editItem={editItem}
+        changeTimerValue={changeTimerValue}
+        onSubmitEdit={onSubmitEdit}
+      />
+      <Footer
+        todos={todos}
+        filterValue={filterValue}
+        changeFilter={changeFilter}
+        clearCompletedTasks={clearCompletedTasks}
+      />
+    </div>
+  )
 }
 
 export default App

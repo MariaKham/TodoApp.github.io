@@ -48,6 +48,7 @@
         "react-hooks"
     ],
     "rules": {
+        "resct-hooks/exhaustive-deps": 0,
         "react/destructuring-assignment": 0,
         // "react/prefer-stateless-function": 0,
         "jsx-a11y/label-has-associated-control": 0,
@@ -68,6 +69,7 @@
         "no-nested-ternary": "off",
         "indent": [
             "error",
+            "SwitchCase",
             2
         ],
         "prettier/prettier": [
