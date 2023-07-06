@@ -68,11 +68,11 @@
         "no-plusplus": "off",
         "no-nested-ternary": "off",
         "indent": [
-            [
-                "error",
-                2
-            ],
-            "SwitchCase"
+            "error",
+            2,
+            {
+                "SwitchCase": 1
+            }
         ],
         "prettier/prettier": [
             "error",
