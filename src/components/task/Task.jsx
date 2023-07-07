@@ -67,7 +67,7 @@ function Task(props) {
         <input
           className="toggle"
           type="checkbox"
-          onChange={props.onToggleComleted}
+          onChange={props.onToggleCompleted}
           id={props.todo.id}
           checked={props.todo.checked}
           onClick={() => onToggleTimer(props.todo.id)}
@@ -101,7 +101,7 @@ Task.propTypes = {
     timer: PropTypes.number,
   }),
   onDeleted: PropTypes.func.isRequired,
-  onToggleComleted: PropTypes.func.isRequired,
+  onToggleCompleted: PropTypes.func.isRequired,
 }
 
 Task.defaultProps = {

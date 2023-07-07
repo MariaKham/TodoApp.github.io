@@ -48,7 +48,7 @@
         "react-hooks"
     ],
     "rules": {
-        "resct-hooks/exhaustive-deps": 0,
+        "react-hooks/exhaustive-deps": 0,
         "react/destructuring-assignment": 0,
         // "react/prefer-stateless-function": 0,
         "jsx-a11y/label-has-associated-control": 0,
@@ -59,12 +59,12 @@
                 "namedComponents": "function-declaration"
             }
         ],
-        "react-hooks/exhaustive-deps": [
-            "warn",
-            {
-                "additionalHooks": "(useMyCustomHook|useMyOtherCustomHook)"
-            }
-        ],
+        // "react-hooks/exhaustive-deps": [
+        //     "warn",
+        //     {
+        //         "additionalHooks": "(useMyCustomHook|useMyOtherCustomHook)"
+        //     }
+        // ],
         "no-plusplus": "off",
         "no-nested-ternary": "off",
         "indent": [
